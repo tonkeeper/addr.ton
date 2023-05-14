@@ -57,21 +57,23 @@ Resolvers are free to choose the encoding and the checksum algorithm. In this sp
 ## Suggested alphabet and checksum
 
 Use Base 32 alphabet from [RFC 4648](https://datatracker.ietf.org/doc/html/rfc4648#section-7).
-
-This alphabet is compatible with "alphanum" mode for QR codes.
+But all addresses SHOULD be converted to lower case. Upper case CAN be used for tecnical purpouse like "alphanum" mode in QR codes.
 
 Standard addresses:
-* Wallet address: workchain + pubkey (264 bits)
-* Contract address: workchain + hash (264 bits)
+* Wallet address: workchain + pubkey (264 bits).wallet.ton
+* Contract address: workchain + hash (264 bits).addr.ton
 
 Checksum: pad with 16 bits to 280 bits (56 symbols in Base 32). Take first 16 bits from `cell_hash(cell(parsed_data || "resolver.ton" ))` where `"resolver.ton"` is a fully-qualified DNS name of the resolver contract.
 
+For example:
+
+`ovqqafgzellhvdvw6eyactxuuic5n3dwqyjtni6dgyxlnvgmntfqrgpp.addr.ton`
 
 
 
 ## Resolving an address
 
-
+Fully compatible with [standard](https://github.com/ton-blockchain/TEPs/blob/master/text/0081-dns-standard.md)      
 
 
 ## Displaying addresses
@@ -90,6 +92,18 @@ To display an abbreviated address use leading 10 characters:
 7kw508d6qe
 ```
 
+Abbreviated MUST NOT be used for any resolves - only displays because it's not cryptographically secure.
+
+## DNS inegration.
+
+### Bounce flag
+Software MUST use record capability `cap_is_wallet#2177 = SmcCapability;` for setting `bounce` flag. 
+Messages to record without this capability MUST have flag `bounce` = true. 
+Messages to record without this capability MUST have flag `bounce` = false.
+
+### Init state
+
+//todo: write
 
 # Drawbacks
 
@@ -109,8 +123,7 @@ Why should we *not* do this?
 
 # Unresolved questions
 
-* How exactly does the resolver return a dictionary per DNS standard?
+* Backresolve. How to display account address in explorers before it deployed?
 
 # Future possibilities
-
 
