@@ -121,7 +121,12 @@ If this capability is present, implementations MUST set the `bounceable` flag to
 
 ### Init state
 
-//todo: write
+Add new capability `cap_state_init#4571 init:StateInit = SmcCapability;` for returning state init which MUST be attached to outgoing message. 
+
+#### Rationale 
+
+- It reduces number of accounts without uninitialized accounts which partialy remove problem with backresolve.
+- It allows to create addresses like `1000000000-1684273816-1234.music.invoices.ton` for creating one-time-payment invoice to Music Shop for 1 TON with ttl 10 minutes and uniq id 1234.
 
 # Drawbacks
 
